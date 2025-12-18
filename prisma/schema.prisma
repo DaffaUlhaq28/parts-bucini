@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Data Pembeli
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String?
+  address   String?
+  phone     String?
+  createdAt DateTime @default(now())
+  orders    Order[]
+}
+
+// Data Pesanan
+model Order {
+  id            Int         @id @default(autoincrement())
+  invoice       String      @unique // Contoh: #BCN-12345
+  totalAmount   Int
+  status        String      @default("PENDING")
+  paymentMethod String?
+  createdAt     DateTime    @default(now())
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id])
+  items         OrderItem[]
+}
+
+// Rincian Barang per Pesanan
+model OrderItem {
+  id          Int     @id @default(autoincrement())
+  productName String
+  color       String
+  price       Int
+  quantity    Int
+  image       String?
+  orderId     Int
+  order       Order   @relation(fields: [orderId], references: [id])
+}
+
+// Tambahkan di bawah model yang mungkin sudah ada (misalnya model User)
+
+model ProductSatchel {
+  id          Int      @id @default(autoincrement())
+  nama        String
+  harga       Int
+  deskripsi   String?  @db.Text
+  gambar      String   // Nanti diisi nama file gambar
+  createdAt   DateTime @default(now())
+}
