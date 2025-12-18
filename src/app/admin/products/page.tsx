@@ -4,16 +4,18 @@ import { prisma } from "@/lib/prisma";
 import Sidebar from "@/components/admin/sidebar"; 
 import styles from "./product.module.css"; 
 import { deleteProduct } from "../actions/productAction"; 
-import { Plus } from "lucide-react"; // Ikon tambah
+import { Plus } from "lucide-react"; 
 
-// Pastikan data selalu fresh saat dibuka
 export const dynamic = "force-dynamic";
 
 export default async function ProductListPage() {
-  // Ambil data produk dari database
+  // Update Query: Ambil 'variants' (semua) untuk hitung stok
   const products = await prisma.product.findMany({
     orderBy: { createdAt: 'desc' },
-    include: { collection: true } // Jika mau menampilkan nama koleksi
+    include: { 
+      collection: true,
+      variants: true // <--- Ganti dari { take: 1 } jadi true (ambil semua)
+    } 
   });
 
   const formatRupiah = (num: number) => {
@@ -22,11 +24,9 @@ export default async function ProductListPage() {
 
   return (
     <div className={styles.container}>
-      {/* Sidebar Admin */}
       <Sidebar activeMenu="Produk" />
 
       <main className={styles.mainContent}>
-        {/* Header: Judul & Tombol Tambah */}
         <div className={styles.headerAction}>
           <h1 className={styles.pageTitle}>Daftar Produk</h1>
           
@@ -36,7 +36,6 @@ export default async function ProductListPage() {
           </Link>
         </div>
 
-        {/* Tabel Data */}
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
@@ -44,7 +43,7 @@ export default async function ProductListPage() {
                 <th style={{width: '100px'}}>Foto</th>
                 <th>Info Produk</th>
                 <th>Harga</th>
-                <th>Stok</th>
+                <th>Total Stok</th> {/* Judul kolom disesuaikan */}
                 <th>Status</th>
                 <th>Kelola</th>
               </tr>
@@ -57,70 +56,70 @@ export default async function ProductListPage() {
                   </td>
                 </tr>
               ) : (
-                products.map((product) => (
-                  <tr key={product.id}>
-                    {/* 1. FOTO */}
-                    <td>
-                      <div className={styles.productImageWrapper}>
-                        <Image 
-                          src={product.image && product.image !== "" ? product.image : "/images/placeholder.png"} 
-                          alt={product.name} 
-                          fill
-                          style={{objectFit: 'cover'}}
-                        />
-                      </div>
-                    </td>
+                products.map((product) => {
+                  // --- HITUNG TOTAL STOK DI SINI ---
+                  const totalStock = product.variants.reduce((acc, variant) => acc + variant.stock, 0);
 
-                    {/* 2. INFO (NAMA & ID) */}
-                    <td>
-                      <div className={styles.productName}>{product.name}</div>
-                      <div className={styles.productId}>
-                        ID: #{product.id} • {product.collection ? product.collection.name : "Uncategorized"}
-                      </div>
-                    </td>
+                  return (
+                    <tr key={product.id}>
+                      {/* 1. FOTO */}
+                      <td>
+                        <div className={styles.productImageWrapper}>
+                          <Image 
+                            src={product.image || product.variants[0]?.image || "/images/placeholder.png"} 
+                            alt={product.name} 
+                            fill
+                            style={{objectFit: 'cover'}}
+                          />
+                        </div>
+                      </td>
 
-                    {/* 3. HARGA */}
-                    <td style={{fontWeight: 600}}>{formatRupiah(product.price)}</td>
+                      {/* 2. INFO */}
+                      <td>
+                        <div className={styles.productName}>{product.name}</div>
+                        <div className={styles.productId}>
+                          {/* Tampilkan jumlah varian warna */}
+                          {product.variants.length} Varian Warna • {product.collection ? product.collection.name : "Uncategorized"}
+                        </div>
+                      </td>
 
-                    {/* 4. STOK (Angka) */}
-                    <td style={{fontWeight: 600}}>{product.stock} pcs</td>
+                      {/* 3. HARGA */}
+                      <td style={{fontWeight: 600}}>{formatRupiah(product.price)}</td>
 
-                    {/* 5. STATUS (Label Warna) */}
-                    <td>
-                      <span className={`${styles.stockLabel} ${
-                        product.stock === 0 ? styles.stockEmpty : 
-                        product.stock < 5 ? styles.stockLow : styles.stockSafe
-                      }`}>
-                        {product.stock === 0 ? "Habis" : product.stock < 5 ? "Menipis" : "Tersedia"}
-                      </span>
-                    </td>
-                    
-                    {/* 6. KELOLA (Tombol Edit & Hapus) */}
-                    <td>
-                      <div className={styles.actionButtons}>
-                        {/* Tombol Edit */}
-                        <Link 
-                          href={`/admin/products/edit/${product.id}`} 
-                          className={styles.btnEdit}
-                        >
-                          Edit
-                        </Link>
-                        
-                        {/* Tombol Hapus */}
-                        <form action={deleteProduct.bind(null, product.id)}>
-                          <button 
-                            type="submit" 
-                            className={styles.btnDelete}
-                            // Opsional: Tambahkan confirm JS sederhana jika perlu
+                      {/* 4. TOTAL STOK (Pakai variabel hasil hitungan tadi) */}
+                      <td style={{fontWeight: 600}}>{totalStock} pcs</td>
+
+                      {/* 5. STATUS (Logika pakai totalStock) */}
+                      <td>
+                        <span className={`${styles.stockLabel} ${
+                          totalStock === 0 ? styles.stockEmpty : 
+                          totalStock < 5 ? styles.stockLow : styles.stockSafe
+                        }`}>
+                          {totalStock === 0 ? "Habis" : totalStock < 5 ? "Menipis" : "Tersedia"}
+                        </span>
+                      </td>
+                      
+                      {/* 6. KELOLA */}
+                      <td>
+                        <div className={styles.actionButtons}>
+                          <Link 
+                            href={`/admin/products/edit/${product.id}`} 
+                            className={styles.btnEdit}
                           >
-                            Hapus
-                          </button>
-                        </form>
-                      </div>
-                    </td>
+                            Edit
+                          </Link>
+                          
+                          <form action={deleteProduct.bind(null, product.id)}>
+                            <button type="submit" className={styles.btnDelete}>
+                              Hapus
+                            </button>
+                          </form>
+                        </div>
+                      </td>
 
-                  </tr>
-                ))
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
