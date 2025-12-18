@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Sidebar from "../../../../components/admin/sidebar"; // Sidebar Modular
 import styles from "../product.module.css"; // CSS Baru (Mundur 1 folder)
-import { createProductComplex } from "../../actions/productAction"; // Mundur 4 level ke src/actions
+import { createProduct } from "../../actions/productAction"; // Mundur 4 level ke src/actions
 
 export default function AddProductPage() {
   return (

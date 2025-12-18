@@ -43,7 +43,7 @@ export default async function ProductListPage() {
                 <th>Harga</th>
                 <th>Stok</th>
                 <th>Status</th>
-                <th style={{textAlign: 'right'}}>Kelola</th> {/* Kolom Baru */}
+                <th>Kelola</th> {/* Kolom Baru */}
               </tr>
             </thead>
             <tbody>
@@ -83,7 +83,7 @@ export default async function ProductListPage() {
                     </td>
                     
                     {/* KOLOM KELOLA (KANAN) */}
-                    <td style={{textAlign: 'right'}}>
+                    <td>
                       <div className={styles.actionButtons}>
                         {/* Tombol Edit */}
                         <Link 
