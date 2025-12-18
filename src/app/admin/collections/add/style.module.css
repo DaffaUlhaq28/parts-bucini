@@ -1,0 +1,133 @@
+/* src/app/admin/collections/add/style.module.css */
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.headerAction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.pageTitle {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.btnBack {
+  color: #64748b;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.btnBack:hover {
+  color: #0f172a;
+}
+
+/* Card Form */
+.formCard {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px; /* Batasi lebar biar enak dilihat */
+  margin: 0 auto;   /* Tengahkan */
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #334155;
+  font-size: 0.9rem;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #0f172a;
+  background-color: #f8fafc;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #0f172a;
+  background-color: #fff;
+}
+
+/* Area Upload Foto */
+.uploadArea {
+  border: 2px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.uploadArea:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.btnSubmit {
+  background: #0f172a;
+  color: white;
+  width: 100%;
+  padding: 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s;
+}
+
+.btnSubmit:hover {
+  background: #334155;
+}
+
+/* src/app/admin/collections/collection.module.css */
+
+/* ... code lainnya tetap sama ... */
+
+/* FOTO KOLEKSI (UBAH BAGIAN INI) */
+.imageWrapper {
+  position: relative;
+  width: 60px;  /* Lebar */
+  height: 60px; /* Tinggi (Samakan agar 1:1) */
+  background: #f1f5f9;
+  border-radius: 8px; /* Sedikit lebih membulat */
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+/* ... code lainnya tetap sama ... */

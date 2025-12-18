@@ -1,155 +1,180 @@
-/* Layout Halaman Utama */
+/* src/app/admin/products/product.module.css */
+
+/* Layout Utama */
 .container {
   display: flex;
   min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8fafc;
-  position: relative;
-}
-
-/* Sidebar Wrapper agar bisa di-toggle */
-.sidebarWrapper {
-  width: 260px;
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
-  z-index: 50;
+  background-color: #f1f5f9; /* Slate-100 */
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .mainContent {
-  flex-grow: 1;
+  flex: 1;
   padding: 40px;
   overflow-y: auto;
-  width: 100%; /* Ensure takes full width available */
 }
 
-/* Header */
+/* Header: Judul & Tombol Tambah */
 .headerAction {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  flex-wrap: wrap;
-  gap: 15px;
 }
 
 .pageTitle {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #0f172a; /* Hitam Pekat */
+  color: #0f172a; /* Slate-900 (Gelap) */
 }
 
-/* Form Styles - UPDATE WARNA FONT */
-.formCard {
+/* Tombol Tambah Produk (Pojok Kanan Atas) */
+.btnAdd {
+  background-color: #2563eb; /* Biru */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.btnAdd:hover {
+  background-color: #1d4ed8;
+}
+
+/* Wrapper Tabel (Agar ada background putih & shadow) */
+.tableWrapper {
   background: white;
-  padding: 40px;
   border-radius: 12px;
-  max-width: 800px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* Biar sudut tabel tumpul mengikuti radius */
   border: 1px solid #e2e8f0;
 }
 
-.label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 700;
-  color: #0f172a; /* Hitam Pekat - FIXED */
-  font-size: 0.95rem;
-}
-
-.input, .textarea, .select {
+/* Styling Tabel */
+.table {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  color: #0f172a; /* Teks Input Hitam */
-  background-color: #ffffff;
-  transition: all 0.2s;
+  border-collapse: collapse;
+  text-align: left;
 }
 
-.input:focus, .textarea:focus, .select:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+.table thead {
+  background-color: #f8fafc; /* Slate-50 */
+  border-bottom: 1px solid #e2e8f0;
 }
 
-/* Variant Card (Kotak Varian Dinamis) */
-.variantCard {
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  position: relative;
-}
-
-.variantHeader {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #334155;
+.table th {
+  padding: 16px 24px;
   font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b; /* Slate-500 */
 }
 
-.btnRemoveVariant {
-  color: #ef4444;
-  background: none;
-  border: none;
-  cursor: pointer;
+.table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+  color: #334155; /* Slate-700 */
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Kolom Foto */
+.productImageWrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+/* Kolom Info (Nama & ID) */
+.productName {
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.productId {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* Label Stok */
+.stockLabel {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.stockSafe {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.stockLow {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+.stockEmpty {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Tombol Aksi (Edit & Hapus) */
+.actionButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.btnEdit {
+  padding: 6px 12px;
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s;
 }
 
-.btnAddVariant {
-  width: 100%;
-  padding: 12px;
-  background-color: white;
-  border: 2px dashed #cbd5e1;
-  color: #64748b;
-  font-weight: 700;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
+.btnEdit:hover {
+  background-color: #bae6fd;
 }
 
-.btnAddVariant:hover {
-  border-color: #2563eb;
-  color: #2563eb;
-}
-
-/* Mobile Toggle Button */
-.mobileMenuBtn {
-  display: none; /* Hidden on desktop */
-  background: none;
+.btnDelete {
+  padding: 6px 12px;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
   border: none;
-  font-size: 1.5rem;
   cursor: pointer;
-  margin-right: 15px;
-  color: #0f172a;
+  transition: 0.2s;
 }
 
-/* --- RESPONSIVE MOBILE/TABLET --- */
-@media (max-width: 768px) {
-  .sidebarWrapper {
-    position: fixed;
-    height: 100vh;
-    transform: translateX(-100%); /* Sembunyi ke kiri */
-  }
-
-  .sidebarOpen {
-    transform: translateX(0); /* Muncul */
-  }
-
-  .mainContent {
-    padding: 20px;
-  }
-
-  .mobileMenuBtn {
-    display: block; /* Show hamburger */
-  }
-
-  .formGrid {
-    grid-template-columns: 1fr; /* Stack input jadi 1 kolom */
-  }
+.btnDelete:hover {
+  background-color: #fecaca;
 }

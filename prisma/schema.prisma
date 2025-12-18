@@ -44,48 +44,43 @@ model OrderItem {
   orderId     Int
   order       Order   @relation(fields: [orderId], references: [id])
 }
+// prisma/schema.prisma
 
-// Tambahkan di bawah model yang mungkin sudah ada (misalnya model User)
-
-model ProductSatchel {
-  id          Int      @id @default(autoincrement())
-  nama        String
-  harga       Int
-  deskripsi   String?  @db.Text
-  gambar      String   // Nanti diisi nama file gambar
-  createdAt   DateTime @default(now())
-}
 // ... (User, Order, OrderItem biarkan saja) ...
 
-// 1. Kategori / Koleksi (Misal: Satchel Bags, Wallets)
+// 1. Kategori / Koleksi
 model Collection {
   id        Int       @id @default(autoincrement())
   name      String
-  slug      String    @unique // Untuk URL (misal: satchel-bags)
+  slug      String    @unique
+  image     String?   // <--- Tambahkan ini
   products  Product[]
   createdAt DateTime  @default(now())
 }
 
-// 2. Produk Utama (Induk)
+// 2. Produk Utama (Info Umum)
 model Product {
   id           Int              @id @default(autoincrement())
   name         String
   price        Int
   description  String           @db.Text
-  collectionId Int?             // Relasi ke Koleksi
+  
+  collectionId Int?
   collection   Collection?      @relation(fields: [collectionId], references: [id])
-  variants     ProductVariant[] // Relasi ke Varian
+  
+  variants     ProductVariant[] // Relasi ke banyak varian
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
 }
 
-// 3. Varian Produk (Anak) - Menyimpan Stok, Warna, dan Gambar spesifik
+// 3. Varian Produk (Spesifik: Warna, Stok, Foto)
 model ProductVariant {
   id        Int      @id @default(autoincrement())
   productId Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  colorName String   // Misal: "Saddle Brown"
-  colorHex  String   // Misal: "#8B4513" (Buat bulatan warna)
+  
+  colorName String   // Contoh: "Saddle Brown"
+  colorHex  String   // Contoh: "#8B4513" (Untuk bulatan warna)
   stock     Int      @default(0)
-  image     String?  // Foto spesifik warna ini
+  image     String?  // Foto spesifik untuk warna ini
 }

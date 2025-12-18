@@ -1,21 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
-import { prisma } from "../../../lib/prisma"; 
-import Sidebar from "../../../components/admin/sidebar"; 
+import { prisma } from "@/lib/prisma"; 
+import Sidebar from "@/components/admin/sidebar"; 
 import styles from "./product.module.css"; 
-import { deleteProduct } from "../actions/productAction"; // Import aksi hapus
+import { deleteProduct } from "../actions/productAction"; 
+import { Plus } from "lucide-react"; // Ikon tambah
 
+// Pastikan data selalu fresh saat dibuka
 export const dynamic = "force-dynamic";
 
 export default async function ProductListPage() {
-  let products = [];
-  try {
-    products = await prisma.product.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-  } catch (error) {
-    console.error("Gagal ambil data produk:", error);
-  }
+  // Ambil data produk dari database
+  const products = await prisma.product.findMany({
+    orderBy: { createdAt: 'desc' },
+    include: { collection: true } // Jika mau menampilkan nama koleksi
+  });
 
   const formatRupiah = (num: number) => {
     return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(num);
@@ -23,56 +22,70 @@ export default async function ProductListPage() {
 
   return (
     <div className={styles.container}>
+      {/* Sidebar Admin */}
       <Sidebar activeMenu="Produk" />
 
       <main className={styles.mainContent}>
+        {/* Header: Judul & Tombol Tambah */}
         <div className={styles.headerAction}>
           <h1 className={styles.pageTitle}>Daftar Produk</h1>
+          
           <Link href="/admin/products/add" className={styles.btnAdd}>
-            <span>+</span> Tambah Produk Baru
+            <Plus size={18} />
+            Tambah Produk Baru
           </Link>
         </div>
 
+        {/* Tabel Data */}
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Foto</th>
+                <th style={{width: '100px'}}>Foto</th>
                 <th>Info Produk</th>
-                {/* Kolom Warna Dihapus sesuai request */}
                 <th>Harga</th>
                 <th>Stok</th>
                 <th>Status</th>
-                <th>Kelola</th> {/* Kolom Baru */}
+                <th>Kelola</th>
               </tr>
             </thead>
             <tbody>
               {products.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{textAlign: 'center', padding: '40px', color: '#64748b'}}>
-                    <p>Belum ada produk yang ditambahkan.</p>
+                  <td colSpan={6} style={{textAlign: 'center', padding: '50px', color: '#64748b'}}>
+                    Belum ada produk. Silakan tambah produk baru.
                   </td>
                 </tr>
               ) : (
                 products.map((product) => (
                   <tr key={product.id}>
+                    {/* 1. FOTO */}
                     <td>
                       <div className={styles.productImageWrapper}>
                         <Image 
-                          src={product.image && product.image.startsWith('/') ? product.image : "/images/placeholder.png"} 
+                          src={product.image && product.image !== "" ? product.image : "/images/placeholder.png"} 
                           alt={product.name} 
                           fill
                           style={{objectFit: 'cover'}}
                         />
                       </div>
                     </td>
+
+                    {/* 2. INFO (NAMA & ID) */}
                     <td>
                       <div className={styles.productName}>{product.name}</div>
-                      <div className={styles.productId}>ID: #{product.id}</div>
+                      <div className={styles.productId}>
+                        ID: #{product.id} • {product.collection ? product.collection.name : "Uncategorized"}
+                      </div>
                     </td>
-                    {/* Data Warna dihapus */}
+
+                    {/* 3. HARGA */}
                     <td style={{fontWeight: 600}}>{formatRupiah(product.price)}</td>
-                    <td>{product.stock} pcs</td>
+
+                    {/* 4. STOK (Angka) */}
+                    <td style={{fontWeight: 600}}>{product.stock} pcs</td>
+
+                    {/* 5. STATUS (Label Warna) */}
                     <td>
                       <span className={`${styles.stockLabel} ${
                         product.stock === 0 ? styles.stockEmpty : 
@@ -82,7 +95,7 @@ export default async function ProductListPage() {
                       </span>
                     </td>
                     
-                    {/* KOLOM KELOLA (KANAN) */}
+                    {/* 6. KELOLA (Tombol Edit & Hapus) */}
                     <td>
                       <div className={styles.actionButtons}>
                         {/* Tombol Edit */}
@@ -93,14 +106,12 @@ export default async function ProductListPage() {
                           Edit
                         </Link>
                         
-                        {/* Tombol Hapus (Pakai Form Server Action) */}
-                        <form action={deleteProduct.bind(null, product.id)} style={{display:'inline'}}>
+                        {/* Tombol Hapus */}
+                        <form action={deleteProduct.bind(null, product.id)}>
                           <button 
                             type="submit" 
                             className={styles.btnDelete}
-                            // Tambahkan konfirmasi sederhana
-                            // Note: Di server component murni, confirm() JS agak tricky, 
-                            // tapi tombol submit ini akan langsung trigger action.
+                            // Opsional: Tambahkan confirm JS sederhana jika perlu
                           >
                             Hapus
                           </button>

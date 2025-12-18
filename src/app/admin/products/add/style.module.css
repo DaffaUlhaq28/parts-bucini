@@ -1,0 +1,192 @@
+/* src/app/admin/products/add/style.module.css */
+
+/* Layout Utama Halaman */
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8fafc; /* Abu-abu terang bersih */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.headerAction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.pageTitle {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1e293b; /* Slate-800 (Gelap) */
+}
+
+.btnBack {
+  color: #64748b;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.btnBack:hover {
+  color: #0f172a;
+}
+
+/* --- FORM STYLING (YANG DIPERBAIKI) --- */
+.formCard {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  /* Hapus max-width agar mengisi area kosong */
+  width: 100%; 
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+/* Typography Label - Pastikan Gelap */
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #334155; /* Slate-700 */
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+/* Input Styles */
+.input, .textarea, .select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #0f172a; /* TEKS HITAM PEKAT */
+  background-color: #f8fafc; /* Background input agak abu dikit biar beda sama card */
+  transition: all 0.2s;
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: #2563eb;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.input::placeholder, .textarea::placeholder {
+  color: #94a3b8; /* Placeholder abu muda */
+}
+
+/* Grid Layout untuk isian pendek */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+/* Helper Text */
+.helperText {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+/* --- VARIAN CARD STYLING --- */
+.variantCard {
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.variantHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.btnRemoveVariant {
+  color: #ef4444;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: #fee2e2;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btnRemoveVariant:hover {
+  background: #fecaca;
+}
+
+/* Tombol Tambah Varian */
+.btnAddVariant {
+  width: 100%;
+  padding: 16px;
+  background-color: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  color: #475569;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btnAddVariant:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+/* Tombol Simpan (Submit) */
+.btnSubmit {
+  background: #0f172a; /* Hitam kebiruan */
+  color: white;
+  width: 100%;
+  padding: 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 40px;
+  transition: background 0.2s;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.btnSubmit:hover {
+  background: #1e293b;
+  transform: translateY(-2px);
+}
