@@ -1,0 +1,155 @@
+/* Layout Halaman Utama */
+.container {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8fafc;
+  position: relative;
+}
+
+/* Sidebar Wrapper agar bisa di-toggle */
+.sidebarWrapper {
+  width: 260px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  z-index: 50;
+}
+
+.mainContent {
+  flex-grow: 1;
+  padding: 40px;
+  overflow-y: auto;
+  width: 100%; /* Ensure takes full width available */
+}
+
+/* Header */
+.headerAction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.pageTitle {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0f172a; /* Hitam Pekat */
+}
+
+/* Form Styles - UPDATE WARNA FONT */
+.formCard {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 800px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #0f172a; /* Hitam Pekat - FIXED */
+  font-size: 0.95rem;
+}
+
+.input, .textarea, .select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #0f172a; /* Teks Input Hitam */
+  background-color: #ffffff;
+  transition: all 0.2s;
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Variant Card (Kotak Varian Dinamis) */
+.variantCard {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.variantHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #334155;
+  font-size: 0.85rem;
+}
+
+.btnRemoveVariant {
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.btnAddVariant {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  border: 2px dashed #cbd5e1;
+  color: #64748b;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnAddVariant:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+/* Mobile Toggle Button */
+.mobileMenuBtn {
+  display: none; /* Hidden on desktop */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 15px;
+  color: #0f172a;
+}
+
+/* --- RESPONSIVE MOBILE/TABLET --- */
+@media (max-width: 768px) {
+  .sidebarWrapper {
+    position: fixed;
+    height: 100vh;
+    transform: translateX(-100%); /* Sembunyi ke kiri */
+  }
+
+  .sidebarOpen {
+    transform: translateX(0); /* Muncul */
+  }
+
+  .mainContent {
+    padding: 20px;
+  }
+
+  .mobileMenuBtn {
+    display: block; /* Show hamburger */
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr; /* Stack input jadi 1 kolom */
+  }
+}

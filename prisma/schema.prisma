@@ -55,3 +55,37 @@ model ProductSatchel {
   gambar      String   // Nanti diisi nama file gambar
   createdAt   DateTime @default(now())
 }
+// ... (User, Order, OrderItem biarkan saja) ...
+
+// 1. Kategori / Koleksi (Misal: Satchel Bags, Wallets)
+model Collection {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String    @unique // Untuk URL (misal: satchel-bags)
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+// 2. Produk Utama (Induk)
+model Product {
+  id           Int              @id @default(autoincrement())
+  name         String
+  price        Int
+  description  String           @db.Text
+  collectionId Int?             // Relasi ke Koleksi
+  collection   Collection?      @relation(fields: [collectionId], references: [id])
+  variants     ProductVariant[] // Relasi ke Varian
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+// 3. Varian Produk (Anak) - Menyimpan Stok, Warna, dan Gambar spesifik
+model ProductVariant {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  colorName String   // Misal: "Saddle Brown"
+  colorHex  String   // Misal: "#8B4513" (Buat bulatan warna)
+  stock     Int      @default(0)
+  image     String?  // Foto spesifik warna ini
+}
